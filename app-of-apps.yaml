@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git # URL of the Git repository
     targetRevision: main # The specific branch, tag, or commit to sync from
-    path: applications # The path within the repository where the application manifests are located
+    path: eks-argocd/applications # The path within the repository where the application manifests are located
   destination:
     server: https://kubernetes.default.svc # The API server URL of the target Kubernetes cluster
     namespace: argocd # The namespace in the target cluster where the application will be deployed
