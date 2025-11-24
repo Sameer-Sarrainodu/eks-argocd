@@ -27,11 +27,11 @@ spec:
         # command: ["sh", "-c", "echo 'failure' && exit 1"]
         resources:
           requests:
-            cpu: "50m"
-            memory: "128Mi"
+            cpu: "300m"
+            memory: "512Mi"
           limits:
-            cpu: "100m"
-            memory: "256Mi"
+            cpu: "500m"
+            memory: "1024Mi"
         envFrom:
         - configMapRef:
             name: shipping
