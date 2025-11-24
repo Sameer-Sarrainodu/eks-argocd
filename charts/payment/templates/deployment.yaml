@@ -3,10 +3,6 @@ kind: Deployment
 metadata:
   name: payment
   namespace: roboshop
-  labels:
-    component: payment
-    project: roboshop
-    tier: app
 spec:
   replicas: 1
   selector:
@@ -24,7 +20,6 @@ spec:
       containers:
       - name: payment
         image: "{{ .Values.deployment.imageurl }}:{{ .Values.deployment.imageversion }}"
-        # command: ["sh", "-c", "echo 'failure' && exit 1"]
         resources:
           requests:
             cpu: "50m"
@@ -34,4 +29,6 @@ spec:
             memory: "256Mi"
         envFrom:
         - configMapRef:
+            name: payment
+        - secretRef:        # <-- ADD THIS BLOCK
             name: payment
