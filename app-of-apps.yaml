@@ -1,18 +1,38 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps
+  name: roboshop-root
   namespace: argocd
 spec:
   project: default
+
   source:
     repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
     targetRevision: main
-    path: applications
+    path: .
+
   destination:
-    server: https://kubernetes.default.svc
     namespace: argocd
+    server: https://kubernetes.default.svc
+
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+
+  # Enforce ordering
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+  # Children apps for ordering
+  sources:
+    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
+      path: namespace
+      targetRevision: main
+    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
+      path: storageclasses
+      targetRevision: main
+    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
+      path: applications
+      targetRevision: main
