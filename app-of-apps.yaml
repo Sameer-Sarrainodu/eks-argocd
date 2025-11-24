@@ -6,14 +6,25 @@ metadata:
 spec:
   project: default
 
-  source:
-    repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
-    targetRevision: main
-    path: .                         # ← root of repo
-    directory:
-      recurse: true                 # ← this picks up ALL YAML files in ALL subfolders
-      include: '{namespace,storageclasses,applications}/**/*.yaml'
-      # This means: take every .yaml inside namespace/, storageclasses/, applications/ and subfolders
+  sources:
+    # 1. Apply namespace & storageclass as raw manifests
+    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
+      targetRevision: main
+      path: namespace
+      directory:
+        recurse: false
+    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
+      targetRevision: main
+      path: storageclasses
+      directory:
+        recurse: false
+
+    # 2. Create the 6 child applications
+    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
+      targetRevision: main
+      path: applications
+      directory:
+        recurse: true
 
   destination:
     server: https://kubernetes.default.svc
@@ -24,4 +35,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true          # this will create roboshop namespace automatically
+      - CreateNamespace=true
