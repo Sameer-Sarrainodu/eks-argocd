@@ -9,17 +9,19 @@ spec:
   source:
     repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
     targetRevision: main
-    path: applications                 # points exactly to your applications/ folder
+    path: .                         # ← root of repo
     directory:
-      recurse: true                    # picks up cart.yaml, catalogue.yaml, etc.
+      recurse: true                 # ← this picks up ALL YAML files in ALL subfolders
+      include: '{namespace,storageclasses,applications}/**/*.yaml'
+      # This means: take every .yaml inside namespace/, storageclasses/, applications/ and subfolders
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: roboshop                # FIXED: was argocd before → this killed everything
+    namespace: roboshop
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=true          # this will create roboshop namespace automatically
