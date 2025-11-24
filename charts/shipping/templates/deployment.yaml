@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: shipping
-        image: "{{ .Values.deployment.imageurl }}:{{ .Values.deployment.imageversion }}"
+        image: "{{ .Values.deployment.imageurl }}:1.0"
         # command: ["sh", "-c", "echo 'failure' && exit 1"]
         resources:
           requests:
