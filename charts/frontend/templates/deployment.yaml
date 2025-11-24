@@ -40,7 +40,7 @@ spec:
               readOnly: true
           envFrom:
             - configMapRef:
-                name: frontend
+                name: nginx-conf
 
       volumes:
         - name: nginx-conf
