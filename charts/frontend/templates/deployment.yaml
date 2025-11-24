@@ -1,7 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: roboshop
+  labels:
+    component: frontend
+    project: roboshop
+    tier: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: frontend
+      project: roboshop
+      tier: web
+  template:
+    metadata:
+      labels:
+        component: frontend
+        project: roboshop
+        tier: web
+    spec:
       containers:
         - name: frontend
           image: "{{ .Values.deployment.imageurl }}:{{ .Values.deployment.imageversion }}"
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           resources:
@@ -19,6 +41,7 @@
           envFrom:
             - configMapRef:
                 name: frontend
+
       volumes:
         - name: nginx-conf
           configMap:
