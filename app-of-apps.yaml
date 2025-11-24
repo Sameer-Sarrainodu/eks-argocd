@@ -9,30 +9,17 @@ spec:
   source:
     repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
     targetRevision: main
-    path: .
+    path: applications                 # points exactly to your applications/ folder
+    directory:
+      recurse: true                    # picks up cart.yaml, catalogue.yaml, etc.
 
   destination:
-    namespace: argocd
     server: https://kubernetes.default.svc
+    namespace: roboshop                # FIXED: was argocd before → this killed everything
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-
-  # Enforce ordering
-  syncPolicy:
     syncOptions:
       - CreateNamespace=true
-
-  # Children apps for ordering
-  sources:
-    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
-      path: namespace
-      targetRevision: main
-    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
-      path: storageclasses
-      targetRevision: main
-    - repoURL: https://github.com/Sameer-Sarrainodu/eks-argocd.git
-      path: applications
-      targetRevision: main
