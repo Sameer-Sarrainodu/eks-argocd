@@ -30,7 +30,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: roboshop
+    namespace: argocd
 
   syncPolicy:
     automated:
